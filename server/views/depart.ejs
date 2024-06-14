@@ -1,0 +1,248 @@
+<!-- 고급웹프로그래밍 과제#2 이상연 60211684 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="./frontUser.css" />
+  </head>
+  <body id="departBg" style="position: relative">
+    <header><%- include('./header') %></header>
+    <% if(name){ %>
+    <h3><%= name %>님 환영합니다</h3>
+    <% } %>
+
+    <h3>새로운 항공기 출발 정보 등록</h3>
+    <div>
+      <form id="form" method="post">
+        <label>항공사:</label>
+        <input type="text" name="airline" />
+        <br />
+        <label>출발지:</label>
+        <input type="text" name="to" />
+        <br />
+        <label>목적지:</label>
+        <input type="text" name="destination" />
+        <br />
+        <label>출발 시간:</label>
+        <input type="text" name="departure_time" />
+        <br />
+        <label>도착 시간:</label>
+        <input type="text" name="arrival_time" />
+        <br />
+        <button class="flight_create" type="submit">제출</button>
+      </form>
+    </div>
+    <div>
+      <div id="editPopup">
+        <div>
+          <label for="editAirline">Airline :</label>
+          <input id="editAirline" type="text" />
+        </div>
+        <div>
+          <label for="editTo">To :</label>
+          <input id="editTo" type="text" />
+        </div>
+        <div>
+          <label for="editGate">Gate :</label>
+          <input id="editGate" type="text" />
+        </div>
+        <button id="editPopupButton">수정하기</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>항공기 번호</th>
+            <th>항공사</th>
+            <th>출발지</th>
+            <th>목적지</th>
+            <th>출발 시간</th>
+            <th>도착 시간</th>
+          </tr>
+        </thead>
+        <tbody id="departTbody">
+          <% flights.forEach((item) => { %>
+          <!-- map 함수 대신 forEach 함수로 변경 -->
+          <tr>
+            <td><%= item.dataValues.flight_id %></td>
+            <td><%= item.dataValues.airline %></td>
+            <!-- th 대신 td로 수정 및 <%= %> 추가 -->
+            <td><%= item.dataValues.origin %></td>
+            <td><%= item.dataValues.destination %></td>
+            <td><%= item.dataValues.departure_time %></td>
+            <td><%= item.dataValues.arrival_time %></td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>티켓 정보</h3>
+    <div id="ticket_buttons">
+      <button class="ticket_create">추가</button>
+      <button class="ticket_edit">수정</button>
+      <button class="ticket_delete">삭제</button>
+    </div>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>티켓번호</th>
+            <th>승객명</th>
+            <th>좌석 번호</th>
+            <th>항공사</th>
+            <th>출발지</th>
+            <th>도착지</th>
+            <th>출발 시간</th>
+            <th>도착 시간</th>
+          </tr>
+        </thead>
+        <tbody id="departTbody">
+          <% tickets.forEach((item) => { %>
+          <tr>
+            <!-- <p><%= item%></p> -->
+            <td><%= item.ticket_id %></td>
+            <td><%= item.passenger_name %></td>
+            <td><%= item.seat_number %></td>
+            <td><%= item.airline %></td>
+            <td><%= item.origin %></td>
+            <td><%= item.destination %></td>
+            <td><%= item.departure_time %></td>
+            <td><%= item.arrival_time %></td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+
+    <div
+      class="pop-up"
+      style="
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        border: solid 1px;
+        top: 50%;
+        left: 50%;
+        z-index: 20;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: white;
+        display: none;
+      "
+    >
+      <p
+        style="
+          font-size: 25px;
+          font-weight: bold;
+          margin-bottom: 50px;
+          text-align: center;
+        "
+      >
+        티켓 추가하기
+      </p>
+
+      <form
+        class="create_ticket_form"
+        action="/depart/ticket"
+        method="post"
+        style="
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <div
+          style="
+            width: 100%;
+            margin-bottom: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+          "
+        >
+          <label for="">승객명: </label>
+          <input
+            name="passenger_name"
+            type="text"
+            style="width: 50%; height: 30px; margin-left: 10px"
+          />
+        </div>
+        <div
+          style="
+            width: 100%;
+            margin-bottom: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+          "
+        >
+          <label for="">좌석 번호: </label>
+          <input
+            name="seat_number"
+            type="text"
+            style="width: 50%; height: 30px; margin-left: 10px"
+          />
+        </div>
+        <div
+          style="
+            width: 100%;
+            margin-bottom: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+          "
+        >
+          <label for="">항공기 번호: </label>
+          <input
+            name="flight_id"
+            type="text"
+            style="width: 50%; height: 30px; margin-left: 10px"
+          />
+        </div>
+        <button
+          class="create_confirm"
+          style="
+            width: 80%;
+            height: 50px;
+            font-size: 20px;
+            background-color: black;
+            color: white;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            border: none;
+            font-weight: bold;
+          "
+        >
+          추가하기
+        </button>
+        <button
+          type="button"
+          class="create_cancel"
+          style="
+            width: 80%;
+            height: 50px;
+            font-size: 20px;
+            background-color: lightgray;
+            border: none;
+            font-weight: bold;
+          "
+        >
+          닫기
+        </button>
+      </form>
+    </div>
+
+    <footer><%- include('./footer') %></footer>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./frontUser.js"></script>
+  </body>
+</html>

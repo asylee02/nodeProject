@@ -1,0 +1,50 @@
+<!-- 고급웹프로그래밍 과제#2 이상연 60211684 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="./frontUser.css" />
+  </head>
+  <body>
+    <header><%- include('./header') %></header>
+    <div>
+      <% if(name){ %>
+        <h3><%= name %>님 환영합니다</h3>
+      <% } %>
+        <h2><%=title%></h2>
+        <form
+        id="form"
+        action="/upload"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <label>전송할 사진 : </label>
+        <input type="file" name="manyImage" multiple /><br />
+        <label> 항공기 명 : </label>
+        <input type="text" name="title" />
+        <p>
+          <button type="submit">업로드</button>
+        </p>
+      </form>
+      <div>
+        <% if ( airplane !== 'undefined' && airplane) { %>
+        <p>항공기명: <%= airplane %></p>
+        <p>기내식 사진:</p>
+        <ul>
+          <% if (filenames && filenames.length > 0) { %> <%
+          filenames.forEach((item)=> { %>
+            <li><%= item.originalname %></li>
+          <% }); %> <% } else { %>
+            <li>업로드된 파일이 없습니다.</li>
+          <% } %>
+        </ul>
+      </div>
+      <%}%>
+    </div>
+    <footer><%- include('./footer') %></footer>
+  </body>
+</html>
+
+
